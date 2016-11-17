@@ -5,6 +5,7 @@ import os
 import config
 
 ROUTES = (
+    (r'/login', 'app.handlers.users.LoginHandler'),
     (r'/dictionaries', 'app.handlers.dictionaries.DictionaryHandler'),
 )
 

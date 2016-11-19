@@ -25,6 +25,8 @@ class BaseHandler(RequestHandler):
             return False
         try:
             data = json.loads(body)
+            if 'session_token' not in data:
+                data['session_token'] = None
             return data
         except ValueError:
             self.write("Invalid json")
@@ -70,6 +72,9 @@ class BaseHandler(RequestHandler):
         @override
         '''
         data = self.prepare_json(response)
+        self.set_header("Access-Control-Allow-Origin", "*")
+        self.set_header("Access-Control-Allow-Credentials", "true")
+        self.set_header("Access-Control-Allow-Methods", "GET,PUT,POST,DELETE")
         super(BaseHandler, self).write(data)
 
     def data_received(self, chunk):

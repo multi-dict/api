@@ -14,7 +14,7 @@ class Dictionary(BaseModel):
     @gen.coroutine
     def all(cls):
         '''
-        Return all Dictionarys
+        Return all Dictionaries
         '''
-        cursor = yield POOL.execute('SELECT * FROM dictionaries_dictionaries')
+        cursor = yield POOL.execute('SELECT * FROM dictionaries_dictionary')
         return cursor.fetchall()

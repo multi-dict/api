@@ -7,6 +7,9 @@ import config
 ROUTES = (
     (r'/login', 'app.handlers.users.LoginHandler'),
     (r'/dictionaries', 'app.handlers.dictionaries.DictionaryHandler'),
+    (r'/entities', 'app.handlers.words.EntityHandler'),
+    (r'/words', 'app.handlers.words.WordHandler'),
+    (r'/words/([^/]*)', 'app.handlers.words.WordHandler'),
 )
 
 DEBUG = os.environ.get('DEBUG', False)

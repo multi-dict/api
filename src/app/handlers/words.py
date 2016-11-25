@@ -27,7 +27,7 @@ class EntityHandler(BaseHandler):
             return
         items = yield Entity.find(dictionary_id=dictionary_id)
         for item in items:
-            item['words'] = yield Word.find(entity_id=item['id'])
+            item['words'] = yield Word.find(entity_id=item['id'], query=self.get_argument('q', None))
             for word in item['words']:
                 word['language'] = yield Language.get(language_id=word['language'])
         self.write({'entities':items})
@@ -57,7 +57,7 @@ class EntityHandler(BaseHandler):
         del body['dictionary_id']
         body['entity_id'] = entity['id']
         word = yield Word.create(args=body)
-        self.write({'word':word})
+        self.write({'entitiy' : {'id' : entity['id'], 'word':word}})
 
 
 class WordHandler(BaseHandler):

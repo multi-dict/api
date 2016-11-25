@@ -15,17 +15,20 @@ class Word(BaseModel):
         '''
         Return with a word
         '''
-        cursor = yield POOL.execute('SELECT description, sex, source, word, language_id AS language FROM words_word WHERE id = %s', word_id)
+        cursor = yield POOL.execute('SELECT id, description, sex, source, word, language_id AS language FROM words_word WHERE id = %s', word_id)
         return cursor.fetchone()
 
 
     @classmethod
     @gen.coroutine
-    def find(cls, entity_id=None):
+    def find(cls, entity_id=None, query=''):
         '''
         Find words
         '''
-        cursor = yield POOL.execute('SELECT id, word, language_id AS language FROM words_word WHERE entity_id = %s', entity_id)
+        cursor = yield POOL.execute('SELECT id, word, language_id AS language FROM words_word WHERE entity_id = %s AND word LIKE %s', (entity_id, '%'+query+'%',))
+        data = cursor.fetchall()
+        if len(data) > 0:
+            cursor = yield POOL.execute('SELECT id, word, language_id AS language FROM words_word WHERE entity_id = %s', (entity_id,))
         return cursor.fetchall()
 
     @classmethod

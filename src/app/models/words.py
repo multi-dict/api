@@ -15,7 +15,7 @@ class Word(BaseModel):
         '''
         Return with a word
         '''
-        cursor = yield POOL.execute('SELECT id, description, sex, source, word, language_id AS language FROM words_word WHERE id = %s', word_id)
+        cursor = yield POOL.execute('SELECT id, description, gender, source, word, language_id AS language FROM words_word WHERE id = %s', word_id)
         return cursor.fetchone()
 
 
@@ -25,10 +25,10 @@ class Word(BaseModel):
         '''
         Find words
         '''
-        cursor = yield POOL.execute('SELECT id, word, language_id AS language FROM words_word WHERE entity_id = %s AND word LIKE %s', (entity_id, '%'+query+'%',))
+        cursor = yield POOL.execute('SELECT id, word, description, gender, source, language_id AS language FROM words_word WHERE entity_id = %s AND word LIKE %s', (entity_id, '%'+query+'%',))
         data = cursor.fetchall()
         if len(data) > 0:
-            cursor = yield POOL.execute('SELECT id, word, language_id AS language FROM words_word WHERE entity_id = %s', (entity_id,))
+            cursor = yield POOL.execute('SELECT id, word, description, gender, source, language_id AS language FROM words_word WHERE entity_id = %s', (entity_id,))
         return cursor.fetchall()
 
     @classmethod

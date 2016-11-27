@@ -13,7 +13,7 @@ ROUTES = (
 )
 
 DEBUG = os.environ.get('DEBUG', False)
-PORT = os.environ.get('PORT', 8001)
+PORT = os.environ.get('PORT', 5001)
 
 DATABASE = {
     'NAME': config.DB_NAME,

@@ -129,15 +129,13 @@ class WordHandler(BaseHandler):
         '''
         DELETE /words/{id}
         '''
-        body = self.get_body()
-        user = yield User.find(session_token=body['session_token'])
+        user = yield User.find(session_token=self.get_argument('session_token', None))
         if not user:
             self.client_error('Invalid session token', 403)
             return
-        del body['session_token']
         word = yield Word.get(word_id=id)
         if not word:
             self.client_error('Word not found', 404)
             return
         success = yield Word.delete(word_id=id)
-        self.write({'message':success})
+        self.write({'success':success})
